@@ -2,8 +2,8 @@ env = Environment(tools = ['default','chicken'], toolpath = ['/home/john/mingw/s
 env.Append(SWIGFLAGS=["-chicken"])
 
 cppPATH = ["/usr/local/include","/usr/include/glib-2.0","/usr/lib/glib-2.0/include"]
-env.Append(CHICKENFLAGS = '-dynamic -feature chicken-compile-shared')
-
+#env.Append(CHICKENFLAGS = '-dynamic -feature chicken-compile-shared')
+env.Append(CHICKENFLAGS = '')
 chicken_files = env.ChickenFile(["chicken_glib.scm","chicken_wrap_glib.scm","GObject.scm"])
 
 env.SharedLibrary("chicken-glib",

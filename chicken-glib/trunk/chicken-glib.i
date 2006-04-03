@@ -1,7 +1,3 @@
-%module chicken_wrap_glib
-%insert("chicken") {
-}
-
 %{
 #include <glib.h>
 #include <glib-object.h>
