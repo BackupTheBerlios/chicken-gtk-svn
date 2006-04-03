@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+  <title>Chicken Scheme with a mingw32 cross compiler and scons</title>
+  <meta name="GENERATOR" content="Quanta Plus">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link type="text/css" rel="stylesheet" href="javascript/SyntaxHighlighter.css"></link>
+  <style type="text/css">
+  </style>
+</head>
+<body>
+<h1>Building Chicken Scheme with a mingw32 cross compiler and scons</h1>
+<p>I am running ubuntu 5.10 (breezy), your milelage might vary on other systems. It is a pain in the but to set up but once you are up and running mingw32 seems to run a lot quicker. Also you have available all the standard linux tools like bison,flex etc.</p>
+<h2>Ingredients</h2>
+<dl>
+<dt>Mingw32 Cross Compiler</dt>
+<dd>On ubuntu I just went into subversion and installed all the packages for mingw32 compiler. You should end up in the /usr/bin/ with a bunch of i586-mingw32msvc-gcc etc</dd>
+<dd>Also not that the prefix for the tool set is /usr/i586-mingw32msvc/ (other systems it may differ), your include and lib directories live in there.</dd>
+<dt>Python and Scons</dt>
+<dd>If Python2.4.X is not installed on your system install it</dd>
+<dd>Download latest version of scons ussually one on system is stall <A href="http://www.scons.org">Scons Website</A></dd>
+<dd><A href="http://www.scons.org/cgi-sys/cgiwrap/scons/moin.cgi/CrossCompilingMingw">Install the mingw32 cross compile tool (action)</A> probably you should get the one out of <A href="http://cvs.sourceforge.net/viewcvs.py/nsis/NSIS/SCons/Tools/crossmingw.py">buddies cvs</A></dd>
+</dl>
+
+<h2>SConstruct file</h2>
+<textarea name="code" class="python" cols="60" rows="10">
+import os.path
+env = Environment()
+env.Tool('crossmingw', toolpath = ['/home/john/mingw/scons-tools'])
+#Not sure about these compile flags I just pulled them out of the Makefiles on the chicken distro
+ccFlags = "-DC_DEFAULT_TARGET_STACK_SIZE=300000 -DC_NO_PIC_NO_DLL -DHAVE_LOADLIBRARY -DHAVE_GETPROCADDRESS -DHAVE_WINDOWS_H -DC_BUILDING_LIBCHICKEN -DPIC"
+cppPATH = []
+libPATH = ["."]
+
+libchicken_files = """
+runtime.c           	library.c 
+eval.c              	profiler.c 
+scheduler.c         	extras.c
+match-support.c     	lolevel.c
+stub.c              	tinyclos.c
+pregexp.c		utils.c
+tcp.c
+srfi-1.c		srfi-4.c
+srfi-13.c           	srfi-14.c
+srfi-18.c 		posixwin.c """
+
+libchicken = env.SharedLibrary("chicken",
+		libchicken_files.split(),CCFLAGS=ccFlags.split(),
+		LIBPATH = libPATH,CPPPATH = cppPATH,
+		LIBS=["ws2_32","kernel32","user32"])
+env.Alias('install','/home/john/mingw/bin')
+for file in libchicken :
+	ext = os.path.splitext(str(file))
+	if ext==".dll" :
+		env.Install('/home/john/mingw/bin',file)
+	else :
+		env.Install('/home/john/mingw/lib',file)
+
+#not sure about these flags they seem to be set in csc when compiling on windows
+ccFlags = "-DC_DEFAULT_TARGET_STACK_SIZE=300000 -DC_NO_PIC_NO_DLL -DHAVE_LOADLIBRARY -DHAVE_GETPROCADDRESS -DHAVE_WINDOWS_H -DPIC"
+chickenExe_files = """
+chicken.c       support.c
+partition.c     easyffi.c
+compiler.c      optimizer.c
+batch-driver.c  c-platform.c
+c-backend.c     """.split()
+
+chickenExe = env.Program("chicken",chickenExe_files
+				,LIBS=["ws2_32","kernel32","user32","chicken"],
+				LIBPATH = libPATH,
+				CPPPATH = cppPATH,
+				CCFLAGS=ccFlags.split())
+env.Install('/home/john/mingw/bin',chickenExe)
+
+env.Command('csi.c', 'csi.scm', "chicken $SOURCE -prologue build.scm")
+csiExe = env.Program("csi","csi.c",LIBS=["ws2_32","kernel32","user32","chicken"],
+				LIBPATH = libPATH,
+				CPPPATH = cppPATH,
+				CCFLAGS=ccFlags.split())
+env.Install('/home/john/mingw/bin',csiExe)
+
+env.Command('csc.c', 'csc.scm', "chicken $SOURCE")
+cscExe = env.Program("csc","csc.c",LIBS=["ws2_32","kernel32","user32","chicken"],
+				LIBPATH = libPATH,
+				CPPPATH = cppPATH,
+				CCFLAGS=ccFlags.split())
+env.Install('/home/john/mingw/bin',cscExe)
+</textarea>
+<p>You are ready to compile just go scons ;). "scons install" will install it into /home/john/mingw.. probably you should change that ;)</p>
+
+</body>
+<script language="javascript" src="javascript/shCore.js"></script> 
+<script language="javascript" src="javascript/shBrushPython.js"></script> 
+<script language="javascript">dp.SyntaxHighlighter.HighlightAll('code')</script>
+</html>
