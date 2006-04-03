@@ -21,11 +21,11 @@
     ((_ name e0 ...) (set! flag-table (cons (cons 'name (values e0 ...)) flag-table)))
     ))
 
-(load "enumdefs.scm")
+(load "genny-enumdefs.scm")
 
 (define (create-swig-enums enum-table)
-  (let ((swig-port (open-output-file "genny-enums.i" 'replace))
-        (chicken-port (open-output-file "genny-chicken.i" 'replace))
+  (let ((swig-port (open-output-file (build-path ".." "plt_output" "genny-enums.i") 'replace))
+        (chicken-port (open-output-file (build-path ".." "plt_output" "genny-chicken.i") 'replace))
         )
     (define (walk-enum enum)
       (define (walk-values values)

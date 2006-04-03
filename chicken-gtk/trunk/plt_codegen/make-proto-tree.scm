@@ -386,6 +386,7 @@
 (create-scheme-objects obj-tree (build-path ".." "scm"))
 (create-scheme-index obj-tree (build-path ".." "plt_output" "gtkobjects.scm"))
 (create-scons-index obj-tree (build-path ".." "plt_output" "gtkobjects_list.py"))
+(load "parse-enums.scm")
 
 
 
