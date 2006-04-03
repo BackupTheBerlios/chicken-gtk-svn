@@ -1,0 +1,2 @@
+env = Environment(tools = ['default','chicken'], toolpath = ['/home/john/mingw/scons-tools'])
+
