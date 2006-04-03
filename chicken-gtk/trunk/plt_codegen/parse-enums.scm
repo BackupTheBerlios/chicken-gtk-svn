@@ -1,0 +1,92 @@
+(require (lib "13.ss" "srfi"))
+(define enum-table '())
+(define flag-table '())
+(define (c-name->swig str) (string-map (lambda (ch) (if (eqv? ch #\_) #\- ch)) str))
+
+(define-syntax values 
+  (syntax-rules ()
+    ((_ e ) (cons 'e '())) ;(cons 'e0 (params e1 ...))
+    ((_ e0 e1 ...) (cons 'e0 (values e1 ...)))
+    ))
+
+(define-syntax define-enum
+  (syntax-rules ()
+    ((_ name) (list 'name))
+    ((_ name e0 ...) (set! enum-table (cons (cons 'name (values e0 ...)) enum-table)))
+    ))
+
+(define-syntax define-flags
+  (syntax-rules ()
+    ((_ name) (list 'name))
+    ((_ name e0 ...) (set! flag-table (cons (cons 'name (values e0 ...)) flag-table)))
+    ))
+
+(load "enumdefs.scm")
+
+(define (create-swig-enums enum-table)
+  (let ((swig-port (open-output-file "genny-enums.i" 'replace))
+        (chicken-port (open-output-file "genny-chicken.i" 'replace))
+        )
+    (define (walk-enum enum)
+      (define (walk-values values)
+        (if (null? values) '()
+            (begin
+              (cons (eval (car values)) (walk-values (cdr values)))
+              )))
+      (let ((name (car enum))
+           (c-name '())
+           (values '())
+           )
+        (define (write-cdef)
+          (define (write-cdef-values values)
+            (if (null? values) '()
+                (begin 
+                  (fprintf swig-port "\t~a" (cadar values))
+                  (if (null? (cdr values)) (fprintf swig-port "\n") (fprintf swig-port ",\n"))
+                  (write-cdef-values (cdr values))
+                  )))
+          (fprintf swig-port "typedef enum {\n")
+          (write-cdef-values values)
+          (fprintf swig-port "} ~a;\n\n" c-name)
+          )
+        (define (write-chicken-def)
+          (define (write-chicken-values values)
+            (if (null? values) '()
+                (begin
+                  (fprintf chicken-port "(define ~a.~a (~a))\n" name (caar values) (c-name->swig (cadar values)))
+                  (write-chicken-values (cdr values))
+                  )
+                ))
+          (fprintf chicken-port "%insert(\"chicken\") {\n")
+          (write-chicken-values values)
+          (fprintf chicken-port "}\n")
+          )
+        (define (walk-params params)
+          (if (null? params) '()
+              (let ((param (car params)))
+                (cond 
+                  ((eqv? (car param) 'c-name) (set! c-name (cadr param)))
+                  ((eqv? (car param) 'values) (set! values (walk-values (cdr param))))
+                  )
+                (walk-params (cdr params))
+                )))
+        (walk-params (cdr enum))
+        (if (eqv? name 'FileSystemError) '()
+            (begin
+              (write-cdef)
+              (write-chicken-def)))
+        ))
+    
+    (define (iter-table enum-table)
+      (if (null? enum-table) '()
+          (begin
+            (walk-enum (car enum-table))
+            (iter-table (cdr enum-table))
+            )))
+    
+    (iter-table enum-table)
+    (close-output-port chicken-port)
+    (close-output-port swig-port)
+    ))
+
+(create-swig-enums enum-table)

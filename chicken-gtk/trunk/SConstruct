@@ -1,0 +1,9 @@
+import glob
+env = Environment(tools = ['default','chicken'], toolpath = ['/home/john/mingw/scons-tools'])
+env.Append(SWIGFLAGS=["-chicken"])
+
+cppPATH = ["/usr/local/include","/usr/include/glib-2.0","/usr/lib/glib-2.0/include"]
+env.Append(CHICKENFLAGS = '-dynamic -feature chicken-compile-shared')
+
+genny_scm_files = env.ChickenFile(glob.glob("scm/*.scm"))
+env.SharedLibrary("chicken-glib",['chicken-glib.i']+genny_scm_files,CPPPATH = cppPATH)
