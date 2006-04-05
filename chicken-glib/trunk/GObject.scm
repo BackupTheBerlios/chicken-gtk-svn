@@ -27,3 +27,7 @@
 (GObject 'add-method-slot! 'connect-signal (lambda (self resend signal func)
 	(signal-connect (self 'this) signal func)	
 	))
+
+(GObject 'add-method-slot! 'get-type-name (lambda (self resend)
+	(get-type-name (self 'this))
+	))
