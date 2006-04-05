@@ -1,4 +1,5 @@
 (load "parse-functs.scm")
+(load "class-to-type.scm")
 (require (lib "13.ss" "srfi"))
 
 
@@ -252,6 +253,7 @@
 
 
 (define (create-swig-typemaps obj-tree filename)
+  ;not used not use create-gtk-typemaps
   (let ((port (open-output-file filename 'replace)))
     (define (write-swig-branch branch)
         (define (write-if parent-list)
@@ -274,6 +276,38 @@
       (if (eqv? (hash-table-get branch 'class-name) 'GObject) (write-definition (get-children branch))
       (write-definition (get-parents branch))
       )
+      )
+    (walk-tree obj-tree write-swig-branch)
+    (close-output-port port)
+    ))
+
+(define swig-type-map 
+#<<EOF
+%typemap(in) ~a *{
+	if($input == C_SCHEME_FALSE) {
+		swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NULL VALUE NOT ACCEPTED");
+		}
+	else if (C_swig_is_swigpointer($input)) {
+		void *result = (void *) C_block_item($input, 0);
+		if(~a(result)) {
+			$1 = result;
+			}
+		else {
+			swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NOT A ~a POINTER");
+			}
+		}
+	else {
+		swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NOT A SWIG POINTER");
+		}
+}
+EOF
+)
+
+(define (create-gtk-typemaps obj-tree filename) ;(hash-table-get branch 'class-name)
+  ;not used not use create-gtk-typemaps
+  (let ((port (open-output-file filename 'replace)))
+    (define (write-swig-branch branch)
+      (fprintf port swig-type-map  (hash-table-get branch 'class-name) (make-is-type (symbol->string (hash-table-get branch 'class-name))) (hash-table-get branch 'class-name))
       )
     (walk-tree obj-tree write-swig-branch)
     (close-output-port port)
@@ -381,7 +415,7 @@
 (load-method-table function-table obj-tree 'functions)
 (walk-tree obj-tree fix-branch)
 (create-swig-file obj-tree (build-path ".." "plt_output" "genny.i"))
-(create-swig-typemaps obj-tree (build-path ".." "plt_output" "genny-typemaps.i"))
+(create-gtk-typemaps obj-tree (build-path ".." "plt_output" "genny-typemaps.i"))
 (create-scheme-objects obj-tree (build-path ".." "scm"))
 (create-scheme-index obj-tree (build-path ".." "plt_output" "gtkobjects.scm"))
 (create-scons-index obj-tree (build-path ".." "plt_output" "gtkobjects_list.py"))
