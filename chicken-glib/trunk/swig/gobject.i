@@ -2,7 +2,7 @@
 typedef struct _ChickenGClosure ChickenGClosure;
 struct _ChickenGClosure {
     GClosure closure;
-};
+	};
 
 static void
 chicken_closure_marshal(GClosure *closure,
@@ -13,8 +13,10 @@ chicken_closure_marshal(GClosure *closure,
 		    gpointer marshal_data) {
 			//C_word *known_space = C_alloc(C_SIZEOF_SWIG_POINTER);
 			//C_word resultobj = SWIG_NewPointerObj(closure,SWIGTYPE_p_GClosure,0);
+			printf("callback start\n");
+			printf("n_param_values %d\n",n_param_values);
 			chickencallback((gint)closure);
-			//printf("n_param_values %d\n",n_param_values);
+			printf("callback end\n");
 	}
 
 
@@ -103,41 +105,7 @@ char* get_type_name(GObject* o);
 	$result = first;
 	}
 
-//GParamSpec** g_object_interface_list_properties(gpointer g_iface,guint *n_properties_p);
 GParamSpec** object_interface_list_properties(GObject* o,guint *n_properties_p);
 %clear GParamSpec**;
-/* 
-GParamSpec* g_object_class_find_property    (GObjectClass *oclass,
-                                             const gchar *property_name);
-*/
-void        g_object_set_property           (GObject *object,
-                                             const gchar *property_name,         
-                                    const GValue *value);
 
-%typemap(in,numinputs=0) GValue *value (GValue value = { 0, }) {
-	$1 = &value;
-	GParamSpec *pspec = g_object_class_find_property(G_OBJECT_GET_CLASS($1),
-					 arg2);
-	g_value_init($1, G_PARAM_SPEC_VALUE_TYPE(pspec));
-	}
-//GParamSpec* paramSpec = g_object_class_find_property(G_OBJECT_GET_CLASS(arg1),arg2);
-%typemap(argout) GValue *value {
-
-   	if(G_VALUE_HOLDS_INT(arg3)) {
-		printf("holds int\n");
-		} else
-	if(G_VALUE_HOLDS_STRING(arg3)) {
-		printf("holds string\n");
-		int string_len = strlen(g_value_get_string(arg3));
-      		C_word *string_space = C_alloc (C_SIZEOF_STRING (string_len));
-      		C_word value_str = C_string (&string_space, string_len,g_param_spec_get_name(g_value_get_string(arg3)));
-		$result = value_str;	
-		}
-}
-%apply GObject *     { GObject *object };
-void        g_object_get_property           (GObject *object,
-                                             const gchar *property_name,
-                                             GValue *value);
-
-%clear GValue *value;
 
