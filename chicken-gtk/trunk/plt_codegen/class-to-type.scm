@@ -1,0 +1,20 @@
+(define (breakup class-name)
+  (define (iter str-list result current)
+    (cond ((null? str-list) (cdr (reverse (cons (reverse current) result))))
+          ((char-upper-case? (car str-list)) (iter (cdr str-list) (cons (reverse current) result) (cons (car str-list) '())))
+          (else 
+           (iter (cdr str-list) result (cons (car str-list) current)) 
+           )
+          ))  
+  (iter (string->list class-name) '() '())
+  )
+
+;turns GtkToggleButton -> GTK_IS_TOGGLE_BUTTON (define class-name "GtkToggleButton")
+(define (make-is-type class-name)
+  (define (iter class-list)
+    (if (null? class-list) '()
+        (append '(#\_) (car class-list) (iter (cdr class-list)))
+    ))
+  (string-upcase
+   (list->string (append  (car (breakup class-name)) (string->list "_IS") (iter (cdr (breakup class-name))))))
+ )
