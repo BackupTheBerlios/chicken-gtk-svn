@@ -1,0 +1,91 @@
+;function-macros.scm
+(require (lib "defmacro.ss"))
+(require (lib "13.ss" "srfi"))
+
+; (define-macro (define-method name . args)
+;   (printf "~a\n" (symbol? name))
+;   (letrec ((iter-args (lambda (args)
+;                      (if (null? args) '()
+;                          (begin
+;                            (printf "~a ~a \n"  (symbol? (caar args)) (string? (cadar args)) )
+;                            (iter-args (cdr args)))
+;                    ))))
+;     (iter-args args)
+;     )
+;   '()
+; )
+
+(define method-tables '())
+(define function-tables '())
+
+(define (make-method-table name)
+  (let ((method-table (make-hash-table)))
+    (hash-table-put! method-table 'name name)
+    method-table
+    )
+  )
+
+(define (display-method-table method-table)
+  (define (display-entry key value)
+    (printf "~a => ~a\n" key value)
+    )
+  (hash-table-for-each method-table display-entry)
+  )
+
+(define-macro (ifdef . args)
+  '()
+  )
+
+(define-macro (define-virtual . args)
+  '()
+  )
+
+(define-macro (define-method name . args)
+  `(letrec ((method-table (make-method-table (symbol->string ',name)))
+            (iter-params (lambda (params)
+                           (if (null? params) '()
+                               (cons (eval (car params)) (iter-params (cdr params)))
+                               )
+                           ))
+            (iter-args (lambda (args)
+                        (if (null? args) '()
+                            (begin
+                              (if (eqv? (caar args) 'parameters)
+                                  (hash-table-put! method-table 'parameters (iter-params (cdar args)))
+                                  (begin
+                                    (hash-table-put! method-table (caar args) (cadar args))
+                                    ))
+                              (iter-args (cdr args))
+                              )))))
+    (iter-args '(,@args))
+    (if (memv (string->symbol (hash-table-get method-table 'c-name)) ignore-method-list) (printf "ignored method\n") 
+    (set! method-tables (cons method-table method-tables)) 
+    )))
+
+(define-macro (define-function name . args)
+  ;(printf "parsing function ~a\n" name)
+  `(letrec ((method-table (make-method-table (symbol->string ',name)))
+            (iter-params (lambda (params)
+                           (if (null? params) '()
+                               (cons (eval (car params)) (iter-params (cdr params)))
+                               )
+                           ))
+            (iter-args (lambda (args)
+                        (if (null? args) '()
+                            (begin
+                              (if (eqv? (caar args) 'parameters)
+                                  (hash-table-put! method-table 'parameters (iter-params (cdar args)))
+                                  (begin
+                                    (hash-table-put! method-table (caar args) (cadar args))
+                                    ))
+                              (iter-args (cdr args))
+                              )))))
+    (iter-args '(,@args))
+    (if (memv (string->symbol (hash-table-get method-table 'c-name)) ignore-function-list) (printf "ignored function\n")
+    (set! function-tables (cons method-table function-tables))
+    )))
+
+
+;(display method-tables)(newline)
+;(display-method-table (car method-tables))
+;(exit)
