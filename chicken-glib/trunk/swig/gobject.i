@@ -77,14 +77,27 @@ C_word MyMakeString() {
 GObject* chicken_g_object_new(GType object_type) {
   return (GObject*)g_object_new(object_type,NULL);
 }
+
+GObject* chicken_g_object_newv(GType object_type,C_word params) {
+  int n_parameters = C_unfix(C_i_length(params));
+  GParameter *parameters = g_new(GParameter,n_parameters);
+  int i;
+  char* name;
+  for(i=0;i<n_parameters;i++) {
+    C_word param = C_block_item(params,i);
+    name = C_c_string(C_block_item(param,0);
+    GParamSpec* pspec = g_object_class_find_property(g_type_default_interface_peek(object_type),name);
+    g_value_init(&parameters[i].value,G_PARAM_SPEC_VALUE_TYPE(pspec));
+  }
+  return (GObject*)g_object_newv(object_type,n_parameters,parameters);
+}
+
 %}
 
 GClosure *chicken_closure_new();
 guint object_connect(GObject* w,GClosure *closure,const gchar *detailed_signal);
 gint get_closure_ptr(GClosure *closure);
 char* get_type_name(GObject* o);
-
-GObject* chicken_g_object_new(GType object_type);
 
 
 %typemap(in,numinputs=0) guint *n_properties_p (guint temp) {
@@ -116,4 +129,5 @@ GObject* chicken_g_object_new(GType object_type);
 GParamSpec** object_interface_list_properties(GObject* o,guint *n_properties_p);
 %clear GParamSpec**;
 
-
+GObject* chicken_g_object_new(GType object_type);
+GObject* chicken_g_object_newv(GType object_type,C_word params);

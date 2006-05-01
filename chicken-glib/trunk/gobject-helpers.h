@@ -54,6 +54,77 @@ C_word *space = C_alloc(C_SIZEOF_FLONUM);
 resultobj = C_flonum (&space, (double) (result));
 */
 
+%{
+void C_word_to_value(C_word c_value,GValue *value,GType type) {
+  switch (G_TYPE_FUNDAMENTAL(G_PARAM_SPEC_VALUE_TYPE(pspec))) {
+  case G_TYPE_INTERFACE:
+    //g_value_set_object(value, pygobject_get(obj));
+  case G_TYPE_CHAR:
+    //g_value_set_char(value, PyString_AsString(tmp)[0]);
+  case G_TYPE_UCHAR:
+    //g_value_set_char(value, PyString_AsString(tmp)[0]);
+  case G_TYPE_BOOLEAN:
+    //g_value_set_boolean(value, PyObject_IsTrue(obj));
+  case G_TYPE_INT : { 
+    if (C_swig_is_fixnum($input)) g_value_set_int(&value,C_unfix($input)); 
+    else not_converted = 1;
+  }
+			break;
+  case G_TYPE_UINT: {
+    if (C_swig_is_fixnum($input)) g_value_set_uint(&value,C_unfix($input));
+    else not_converted = 1; }
+    break;
+  case G_TYPE_LONG: {
+			if (C_swig_is_fixnum($input)) g_value_set_ulong(&value,C_unfix($input));
+				else not_converted = 1;
+			}
+			break;
+  case G_TYPE_INT64: {
+			if (C_swig_is_fixnum($input)) g_value_set_int64(&value,C_unfix($input));
+				else not_converted = 1;
+			}
+			break;
+  case G_TYPE_UINT64: {
+            		if (C_swig_is_fixnum($input)) g_value_set_uint64(&value,C_unfix($input));
+				else not_converted = 1;
+			}
+			break;
+  case G_TYPE_ENUM: {
+		  if (C_swig_is_fixnum($input)) g_value_set_enum(&value,C_unfix($input));
+				else not_converted = 1;
+			}
+			break;
+		case G_TYPE_FLAGS:
+			 //g_value_set_flags(value, val);
+		case G_TYPE_FLOAT: {
+			if (C_swig_is_flonum($input)) g_value_set_float(&value,C_flonum_magnitude($input));
+				else not_converted = 1;
+			}
+			break;
+		case G_TYPE_DOUBLE: {
+			if (C_swig_is_flonum($input)) g_value_set_double(&value,C_flonum_magnitude($input));
+				else not_converted = 1;
+			}
+			break;
+		case G_TYPE_STRING: {
+			if (C_swig_is_string($input)) g_value_set_string(&value,(gchar*)SWIG_MakeString($input));
+				else not_converted = 1;
+			}
+			break;
+		case G_TYPE_POINTER:
+	    		//g_value_set_pointer(value, NULL);
+		case G_TYPE_BOXED:
+		case G_TYPE_PARAM:
+	    		//g_value_set_param(value, PyCObject_AsVoidPtr(obj));
+		case G_TYPE_OBJECT:
+			//g_value_set_object(value, NULL);
+		default :
+			not_converted = 1;
+		}
+  }
+%}
+
+
 %typemap(in) const GValue *value () {
    	GParamSpec* pspec = g_object_class_find_property(G_OBJECT_GET_CLASS(arg1),arg2);
 	static GValue value = { 0, };
