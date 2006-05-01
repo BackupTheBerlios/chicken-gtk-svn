@@ -1,0 +1,22 @@
+;; Object swig/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "swig/"
+  :tables (list 
+   (semanticdb-table "gobject.i"
+    :major-mode 'c-mode
+    :tags '(("chicken_closure_new" function (:prototype-flag t :pointer 1 :type ("GClosure" type (:type "class") nil nil)) nil [2342 2374]) ("object_connect" function (:prototype-flag t :arguments (("w" variable (:pointer 1 :type ("GObject" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2396 2407]) ("closure" variable (:pointer 1 :type ("GClosure" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2407 2425]) ("detailed_signal" variable (:pointer 1 :constant-flag t :type ("gchar" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2425 2454])) :type ("guint" type (:type "class") nil nil)) nil [2375 2455]) ("get_closure_ptr" function (:prototype-flag t :arguments (("closure" variable (:pointer 1 :type ("GClosure" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2477 2495])) :type ("gint" type (:type "class") nil nil)) nil [2456 2496]) ("get_type_name" function (:prototype-flag t :pointer 1 :arguments (("o" variable (:pointer 1 :type ("GObject" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2517 2528])) :type "char") nil [2497 2529]) ("chicken_g_object_new" function (:prototype-flag t :pointer 1 :arguments (("object_type" variable (:type ("GType" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2561 2579])) :type ("GObject" type (:type "class") nil nil)) nil [2531 2580]) ("n_properties_p" function (:pointer 1 :arguments (("temp" variable (:type ("guint" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2631 2642])) :type ("guint" type (:type "class") nil nil)) nil [2608 2663]) ("object_interface_list_properties" function (:prototype-flag t :pointer 2 :arguments (("o" variable (:pointer 1 :type ("GObject" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3415 3426]) ("n_properties_p" variable (:pointer 1 :type ("guint" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3426 3448])) :type ("GParamSpec" type (:type "class") nil nil)) nil [3369 3449]))
+    :file "gobject.i"
+    :pointmax 3473
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "gparamspec.i"
+    :major-mode 'c-mode
+    :tags '(("g_param_spec_get_name" function (:prototype-flag t :pointer 1 :arguments (("pspec" variable (:pointer 1 :type ("GParamSpec" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [32 50])) :type ("gchar" type (:type "class") nil nil)) nil [1 51]) ("g_param_spec_get_nick" function (:prototype-flag t :pointer 1 :arguments (("pspec" variable (:pointer 1 :type ("GParamSpec" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [91 109])) :type ("gchar" type (:type "class") nil nil)) nil [52 110]) ("g_param_spec_get_blurb" function (:prototype-flag t :pointer 1 :arguments (("pspec" variable (:pointer 1 :type ("GParamSpec" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [150 168])) :type ("gchar" type (:type "class") nil nil)) nil [111 169]))
+    :file "gparamspec.i"
+    :pointmax 169
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0beta3"
+  :semanticdb-version "2.0beta3"
+  )
