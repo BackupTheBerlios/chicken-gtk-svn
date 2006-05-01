@@ -35,7 +35,7 @@
 (load-function-table object-tree function-tables)
 (printf "function and method tables loaded\n")
 
-(define home-folder (build-path "/" "home" "john" "Projects" "chicken-gtk"))
+(define home-folder (build-path "/" "home" "john" "Projects" "chicken-svn" "chicken-gtk" "trunk"))
 (printf "writing enums")
 (create-swig-enums enum-tables (build-path home-folder "swig" "enums.i"))
 (printf "writing class definitions\n")

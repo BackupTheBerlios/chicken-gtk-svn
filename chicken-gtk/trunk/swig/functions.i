@@ -1011,8 +1011,6 @@ GdkPixmap* gdk_pixmap_colormap_create_from_xpm(GdkDrawable* drawable,GdkColormap
 
 GdkPixmap* gdk_pixmap_create_from_xpm(GdkDrawable* drawable,GdkBitmap** mask,GdkColor* transparent_color,const gchar* filename);
 
-GdkPixmap* gdk_pixmap_create_from_data(GdkDrawable* drawable,const guchar* data,gint width,gint height,gint depth,GdkColor* fg,GdkColor* bg);
-
 GType gdk_pixmap_get_type();
 
 GdkPixbuf* gdk_pixbuf_get_from_drawable2(GdkPixbuf* pixbuf,GdkDrawable* src,GdkColormap* cmap,int src_x,int src_y,int dest_x,int dest_y,int width,int height);

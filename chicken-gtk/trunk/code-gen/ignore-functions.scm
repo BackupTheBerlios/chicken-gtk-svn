@@ -50,15 +50,18 @@
                             'atk_role_get_name
                             'atk_state_type_get_name
                             'atk_relation_type_get_name
+                            'atk_implementor_ref_accessible
+                            'gtk_about_dialog_set_authors
                             ))
 
 (define ignore-function-list (list
                               'gdk_pixbuf_new_from_array
                               'pango_get_log_attrs
-                              'pango_break
+                              'pango_break 
                               'gtk_file_chooser_button_new_with_backend
-                              'gdk_pixbuf_get_file_info
-                              'gdk_bitmap_create_from_data
+                              'gdk_pixbuf_get_file_info 
+                              'gdk_bitmap_create_from_data 
+                              'gdk_pixmap_create_from_data 
                               ))
 
 (define ignore-enum-list (list

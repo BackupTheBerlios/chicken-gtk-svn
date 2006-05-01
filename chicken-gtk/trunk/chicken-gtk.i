@@ -1,5 +1,5 @@
 %module chicken_wrap_gtk
-
+          
 %insert("chicken") {
 }
                                      
@@ -78,7 +78,7 @@ typedef void none;
 %include "swig/methods.i"
 %include "swig/functions.i"     
 %include "swig/enums.i"    
-
+    
 %insert("chicken") {
 (gtk-chicken-init) 
 }

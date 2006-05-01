@@ -4421,8 +4421,6 @@ none gtk_about_dialog_set_documenters(GtkAboutDialog *self ,gchar** documenters)
 
 gchar** gtk_about_dialog_get_documenters(GtkAboutDialog *self );
 
-none gtk_about_dialog_set_authors(GtkAboutDialog *self ,gchar** authors);
-
 gchar** gtk_about_dialog_get_authors(GtkAboutDialog *self );
 
 none gtk_about_dialog_set_website_label(GtkAboutDialog *self ,const gchar* website_label);
@@ -5332,8 +5330,6 @@ AtkObject* atk_object_get_parent(AtkObject *self );
 const gchar* atk_object_get_description(AtkObject *self );
 
 const gchar* atk_object_get_name(AtkObject *self );
-
-AtkObject* atk_implementor_ref_accessible(AtkImplementorIface *self );
 
 none atk_object_factory_invalidate(AtkObjectFactory *self );
 
