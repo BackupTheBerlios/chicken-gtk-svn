@@ -109,6 +109,7 @@ switch (G_TYPE_FUNDAMENTAL(type)) {
 			}
 			break;
 		case G_TYPE_STRING: {
+		  printf("String Convert\n");
 			if (C_swig_is_string(c_value)) g_value_set_string(value,(gchar*)SWIG_MakeString(c_value));
 				else not_converted = 1;
 			}
@@ -123,7 +124,10 @@ switch (G_TYPE_FUNDAMENTAL(type)) {
 		default :
 			not_converted = 1;
 		}
-  }
+ if(not_converted) {
+   printf("error converting value\n");
+ } 
+   }
 %}
 
 
