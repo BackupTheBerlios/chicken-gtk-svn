@@ -50,8 +50,8 @@ EOF
 (define constructor-template
 #<<EOF
 
-(~a 'add-method-slot! 'new (lambda (self resend)
-                             (self 'set-this! (chicken-g-object-new (~a)))))
+(~a 'add-method-slot! 'new (lambda (self resend . args)
+                             (self 'set-this! (chicken-g-object-newv (~a) args))))
 
 EOF
 )

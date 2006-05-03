@@ -1,7 +1,8 @@
 (load-library 'chicken-gtk "./libchicken-gtk.so")
 (define (hello) (display "hello") (newline))
 (define w (GtkWindow 'clone))
-(w 'new)
+(w 'new '("title" "GTK-WINDOW-POPUP")) ;GTK_WINDOW_POPUP
+;(w 'new '("type" (GTK_WINDOW_POPUP)))
 (define b (GtkButton 'clone))
 (b 'new)
 (b 'set_label "my button")
