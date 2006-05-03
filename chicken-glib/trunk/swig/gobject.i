@@ -77,17 +77,25 @@ C_word MyMakeString() {
 GObject* chicken_g_object_new(GType object_type) {
   return (GObject*)g_object_new(object_type,NULL);
 }
-
+//void C_word_to_value(C_word c_value,GValue *value,GType type);
 GObject* chicken_g_object_newv(GType object_type,C_word params) {
+  //BREAKPOINT
   int n_parameters = C_unfix(C_i_length(params));
   GParameter *parameters = g_new(GParameter,n_parameters);
   int i;
-  char* name;
+  char name[10][1000];
+  C_word c_value;
   for(i=0;i<n_parameters;i++) {
     C_word param = C_block_item(params,i);
-    name = C_c_string(C_block_item(param,0);
-    GParamSpec* pspec = g_object_class_find_property(g_type_default_interface_peek(object_type),name);
+    //name = C_c_string(C_block_item(param,0));
+    memset(name[i],0,sizeof(name[i]));
+    memcpy(name[i],C_c_string(C_block_item(param,0)),C_unfix(C_i_string_length(C_block_item(param,0))));
+    printf("name %s value %d \n",name[i],C_unfix(c_value));
+    GParamSpec* pspec = g_object_class_find_property(g_type_class_ref(object_type),name);
+    memset(&parameters[i].value,0,sizeof(GValue));
     g_value_init(&parameters[i].value,G_PARAM_SPEC_VALUE_TYPE(pspec));
+    parameters[i].name = name[i];
+    C_word_to_value(c_value,&parameters[i].value,G_PARAM_SPEC_VALUE_TYPE(pspec));
   }
   return (GObject*)g_object_newv(object_type,n_parameters,parameters);
 }
