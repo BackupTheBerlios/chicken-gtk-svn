@@ -1,5 +1,5 @@
 %module chicken_wrap_gtk
-              
+                
 %insert("chicken") {
 }
                                       
@@ -24,7 +24,7 @@ void gtk_chicken_init() {
 %}              
 void gtk_chicken_init();
 void gtk_main(void);
-       
+          
 typedef void none;          
 %include "swig/typemaps.i" //this has to come first
 %include "chicken-glib/chicken-glib.i"
@@ -36,7 +36,7 @@ typedef void none;
 %ignore gtk_file_system_filename_to_path;
 %ignore gtk_file_system_uri_to_path;
 %ignore gtk_file_system_path_to_filename;
-%ignore gtk_file_system_path_to_uri;
+%ignore gtk_file_system_path_to_uri; 
 %ignore gtk_file_system_make_path;
 %ignore gtk_file_system_get_folder;
 %ignore gtk_file_system_get_parent;

@@ -1,7 +1,9 @@
 ;test-constructor.scm
 (load-library 'chicken-gtk "./libchicken-gtk.so")
 ;GObject* chicken_g_object_new(GType object_type);
-(define o (chicken-g-object-newv (gtk-window-get-type) (list (list "type" (GTK-WINDOW-TOPLEVEL)))))
+(define o (chicken-g-object-newv (gtk-window-get-type) (list
+                                                        (list "type" (GTK-WINDOW-TOPLEVEL)
+                                                             ))))
 
 (define w (GtkWindow 'clone))
 (w 'set-this! o)
