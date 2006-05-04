@@ -2,7 +2,8 @@
 (define (hello) (display "hello") (newline))
 (define w (GtkWindow 'clone))
 ;(w 'new '("title" "my window")) ;GTK_WINDOW_POPUP
-(w 'new (list "type" (GTK-WINDOW-POPUP)))
+(define window-type (GTK-WINDOW-POPUP))
+(w 'new (list "title" "my window") (list "type" (GTK-WINDOW-TOPLEVEL)))
 (define b (GtkButton 'clone))
 (b 'new)
 (b 'set_label "my button")

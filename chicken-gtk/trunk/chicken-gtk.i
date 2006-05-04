@@ -1,5 +1,5 @@
 %module chicken_wrap_gtk
-                
+                       
 %insert("chicken") {
 }
                                       
