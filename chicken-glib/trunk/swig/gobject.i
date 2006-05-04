@@ -82,24 +82,28 @@ GObject* chicken_g_object_newv(GType object_type,C_word params) {
   //BREAKPOINT
   int n_parameters = C_unfix(C_i_length(params));
   GParameter *parameters = g_new(GParameter,n_parameters);
-  int i;
-  char name[10][1000];
+  printf("n_parameters %d\n",n_parameters);
   C_word c_value;
-  printf("num params %d \n",n_parameters);
-  for(i=0;i<n_parameters;i++) {
-    C_word param = C_block_item(params,i);
+  C_word tail = params;
+  char name[10][1000];
+  int i=0;
+  while(tail != C_SCHEME_END_OF_LIST) {
+    C_word param = C_u_i_car(tail);
+    tail = C_u_i_cdr(tail);
     //name = C_c_string(C_block_item(param,0));
     memset(name[i],0,sizeof(name[i]));
-    memcpy(name[i],C_c_string(C_block_item(param,0)),C_unfix(C_i_string_length(C_block_item(param,0))));
+    memcpy(name[i],C_c_string(C_u_i_car(param)),C_unfix(C_i_string_length(C_u_i_car(param))));
     //printf("name %s value %d \n",name[i],C_unfix(c_value));
-    GParamSpec* pspec = g_object_class_find_property(g_type_class_ref(object_type),name);
+    GParamSpec* pspec = g_object_class_find_property(g_type_class_ref(object_type),name[i]);
     parameters[i].value.g_type = 0;
     g_value_init(&parameters[i].value,G_PARAM_SPEC_VALUE_TYPE(pspec));
     parameters[i].name = name[i];
-    c_value = C_block_item(param,1);
+    c_value = C_u_i_car(C_u_i_cdr(param));
     C_word_to_value(c_value,&parameters[i].value,G_PARAM_SPEC_VALUE_TYPE(pspec));
+    i++;
   }
-  return (GObject*)g_object_newv(object_type,n_parameters,parameters);
+  GObject* object = (GObject*)g_object_newv(object_type,n_parameters,parameters);
+  return object;
 }
 
 %}
@@ -141,3 +145,5 @@ GParamSpec** object_interface_list_properties(GObject* o,guint *n_properties_p);
 
 GObject* chicken_g_object_new(GType object_type);
 GObject* chicken_g_object_newv(GType object_type,C_word params);
+
+//this way of doing callback was ripped from https://svn.afc.no-ip.info/svn/home/src/chicken-eggs-original/gtk/
