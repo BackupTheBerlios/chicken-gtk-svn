@@ -7,6 +7,7 @@
 (load "swig-helpers.scm")
 (load "write-swig.scm")
 (load "ignore-functions.scm")
+(load "swig_types_lookup.scm")
 (define object-list '())
 (load "make-object-list.scm")
 (define (include x) '())
@@ -45,7 +46,6 @@
 (write-swig-methods method-tables (build-path home-folder "swig" "methods.i"))
 (write-swig-functions function-tables (build-path home-folder "swig" "functions.i"))
 (create-swig-typemaps object-tree (build-path home-folder "swig" "typemaps.i"))         
+(create-swig-lookup object-tree (build-path home-folder "swig" "lookup.i"))
 (exit 0)
-
-
 
