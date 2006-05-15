@@ -3,7 +3,6 @@
 #include <glib-object.h>
 %}
 
-//%include "swig/gobject-typemap.i"
 %include "gobject-helpers.h"
 %include "gobject-helpers.c"
 %include "swig/gtypes.i"

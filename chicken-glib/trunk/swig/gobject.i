@@ -1,8 +1,26 @@
 %{
+//typeinfo is contained in a structure
+//static swig_type_info *swig_type_initial[]
+
+
+//beginning of signals
 typedef struct _ChickenGClosure ChickenGClosure;
 struct _ChickenGClosure {
-    GClosure closure;
-	};
+  GClosure closure;
+  C_word closure_root;
+  gulong signal_id;
+};
+
+//for some reason this has to be a macro or it fails ? my pointers are fuked up
+#define value_to_C_Word(value, result) { \
+  GObject* object; \
+  object = G_OBJECT(g_value_get_object(value)); \
+  gchar* type_name = g_strconcat(G_OBJECT_TYPE_NAME(object)," *",NULL); \
+  swig_type_info *type_info = SWIG_TypeQuery(type_name); \
+  C_word *known_space = NULL; \
+  known_space = C_alloc(C_SIZEOF_SWIG_POINTER); \
+  result = SWIG_NewPointerObj(object,type_info,0); \
+}
 
 static void
 chicken_closure_marshal(GClosure *closure,
@@ -11,14 +29,26 @@ chicken_closure_marshal(GClosure *closure,
 		    const GValue *param_values,
 		    gpointer invocation_hint,
 		    gpointer marshal_data) {
-			//C_word *known_space = C_alloc(C_SIZEOF_SWIG_POINTER);
-			//C_word resultobj = SWIG_NewPointerObj(closure,SWIGTYPE_p_GClosure,0);
-			printf("callback start\n");
-			printf("n_param_values %d\n",n_param_values);
-			chickencallback((gint)closure);
-			printf("callback end\n");
-	}
+  // G_OBJECT_TYPE_NAME
+  //C_word *known_space = C_alloc(C_SIZEOF_SWIG_POINTER);
+  //C_word resultobj = SWIG_NewPointerObj(closure,SWIGTYPE_p_GClosure,0);
+  printf("callback start\n");
+  printf("n_param_values %d\n",n_param_values);
 
+  C_word *param_list  = C_alloc(C_SIZEOF_LIST(n_param_values));
+  C_word last,current;
+  last = C_SCHEME_END_OF_LIST;
+  int i;
+  for(i=0;i<n_param_values;i++) {
+    C_word resultobj;
+    value_to_C_Word(&param_values[i],resultobj);
+    current = (C_word)C_pair(&param_list,resultobj,last);
+    last = current;
+  }
+
+  chickencallback(((ChickenGClosure*)closure)->signal_id,last);
+  printf("callback end\n");
+}
 
 static GClosure 
 *chicken_closure_new() {
@@ -27,7 +57,14 @@ static GClosure
 	g_closure_set_marshal(closure,chicken_closure_marshal);
 	return closure;
 	}
-	
+
+gulong chicken_signal_connect(GObject* object,const gchar *detailed_signal) {
+   ChickenGClosure* gclosure = (ChickenGClosure*)chicken_closure_new();
+   gulong signal_id = g_signal_connect_closure((gpointer)object,detailed_signal,(GClosure*)gclosure,0);
+   gclosure->signal_id = signal_id;
+   return signal_id;
+}
+
 guint object_connect(GObject* w,GClosure *closure,const gchar *detailed_signal) {
 	return g_signal_connect_closure((gpointer)w,
 							detailed_signal,
@@ -39,6 +76,7 @@ static gint get_closure_ptr(GClosure *closure) {
 	return (gint) closure;
 	}
 
+//end of signals
 char* get_type_name(GObject* o) {
 	return G_OBJECT_TYPE_NAME(o);
 	}
@@ -145,5 +183,5 @@ GParamSpec** object_interface_list_properties(GObject* o,guint *n_properties_p);
 
 GObject* chicken_g_object_new(GType object_type);
 GObject* chicken_g_object_newv(GType object_type,C_word params);
+gulong chicken_signal_connect(GObject* object,const gchar *detailed_signal);
 
-//this way of doing callback was ripped from https://svn.afc.no-ip.info/svn/home/src/chicken-eggs-original/gtk/

@@ -32,6 +32,69 @@ switch (G_TYPE_FUNDAMENTAL(G_VALUE_TYPE($1))) {
 GValue *object_get_property(GObject *object,const gchar *property_name);
 %clear GValue *value;
 
+%{
+  /*  
+static C_word value_to_C_word(GValue *value) {
+  C_word result;
+
+  switch (G_TYPE_FUNDAMENTAL(G_VALUE_TYPE(value))) {
+  case G_TYPE_INT:
+    printf("int convert\n");
+    result = C_fix(g_value_get_int(value));
+    break;
+
+  case G_TYPE_UINT:
+    printf("uint convert\n");
+    result = C_fix(g_value_get_uint(value));
+    break;
+
+  case G_TYPE_ENUM:
+    printf("enum convert\n");
+    result = C_fix(g_value_get_enum(value));
+    break;
+
+  case G_TYPE_STRING: {
+    printf("string convert\n");
+	    	const gchar *str = g_value_get_string(value);
+		if(str) {
+			int string_len = strlen(str);
+			C_word *string_space = C_alloc (C_SIZEOF_STRING (string_len));
+			result = C_string (&string_space,string_len,str);	
+			} else 
+			  { 
+			    result = C_SCHEME_FALSE; 
+			  }
+  }	
+    break;
+  case G_TYPE_OBJECT: 
+    BREAKPOINT
+      //#define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
+      //#define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
+      //printf("object convert\n");
+    GObject* object = G_OBJECT(g_value_get_object(value));
+    //printf("type name converting %s\n",G_OBJECT_TYPE_NAME(object));
+    gchar* type_name = g_strconcat(G_OBJECT_TYPE_NAME(object)," *",NULL);
+    swig_type_info *type_info = SWIG_TypeQuery(type_name);
+    
+    //printf("swig type name %s\n",SWIG_TypePrettyName(type_info));
+    C_word *known_space = C_alloc(C_SIZEOF_SWIG_POINTER);
+    result = SWIG_Chicken_NewPointerObj(object,type_info,0,&known_space);
+    //result = C_swigmpointer(&known_space,object,type_info);
+    //C_word func;
+    //SWIG_Chicken_FindCreateProxy(func,result);
+    //result = C_SCHEME_FALSE;
+    return result;
+  default:
+    printf("unable to convert\n");
+    result = C_SCHEME_FALSE;
+    break; 
+  }
+
+  return result;
+}
+  */
+  %}
+
 /*
 #define SWIG_MakeString(c) \
   SWIG_Chicken_MakeString(c)
