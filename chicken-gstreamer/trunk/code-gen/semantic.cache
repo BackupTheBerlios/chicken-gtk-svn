@@ -1,0 +1,55 @@
+;; Object code-gen/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "code-gen/"
+  :tables (list 
+   (semanticdb-table "ignore-functions.scm"
+    :major-mode 'scheme-mode
+    :tags '(("ignore-method-list" variable (:default-value ((50 . 3080))) nil [23 3081]) ("ignore-function-list" variable (:default-value ((2994 . 3432))) nil [3083 3551]) ("ignore-enum-list" variable (:default-value ((3397 . 3554))) nil [3553 3736]))
+    :file "ignore-functions.scm"
+    :pointmax 3736
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "generate.scm"
+    :major-mode 'scheme-mode
+    :tags '(("make-object-tree.scm" include (:system-flag "make-object-tree.scm") nil [115 144]) ("write-scheme-objects.scm" include (:system-flag "write-scheme-objects.scm") nil [145 178]) ("swig-helpers.scm" include (:system-flag "swig-helpers.scm") nil [179 204]) ("write-swig.scm" include (:system-flag "write-swig.scm") nil [205 228]) ("ignore-functions.scm" include (:system-flag "ignore-functions.scm") nil [229 258]) ("swig_types_lookup.scm" include (:system-flag "swig_types_lookup.scm") nil [259 289]) ("object-list" variable (:default-value ((311 . 313))) nil [290 314]) ("make-object-list.scm" include (:system-flag "make-object-list.scm") nil [315 344]) ("include" function (:arguments ("x")) nil [345 369]) ("atk-types.defs" include (:system-flag "defs/atk-types.defs") nil [466 494]) ("gdk-types.defs" include (:system-flag "defs/gdk-types.defs") nil [495 523]) ("gtk-types.defs" include (:system-flag "defs/gtk-types.defs") nil [524 552]) ("pango-types.defs" include (:system-flag "defs/pango-types.defs") nil [553 583]) ("object-tree" variable (:default-value ((636 . 695))) nil [616 696]) ("function-macros.scm" include (:system-flag "function-macros.scm") nil [944 972]) ("atk.defs" include (:system-flag "defs/atk.defs") nil [973 995]) ("gdk.defs" include (:system-flag "defs/gdk.defs") nil [996 1018]) ("gtk.defs" include (:system-flag "defs/gtk.defs") nil [1019 1041]) ("libglade.defs" include (:system-flag "defs/libglade.defs") nil [1042 1069]) ("pango.defs" include (:system-flag "defs/pango.defs") nil [1070 1094]) ("pangocairo.defs" include (:system-flag "defs/pangocairo.defs") nil [1095 1124]) ("home-folder" variable (:default-value ((1341 . 1418))) nil [1321 1419]))
+    :file "generate.scm"
+    :pointmax 2084
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "function-macros.scm"
+    :major-mode 'scheme-mode
+    :tags '(("method-tables" variable (:default-value ((522 . 524))) nil [499 525]) ("function-tables" variable (:default-value ((551 . 553))) nil [526 554]) ("make-method-table" function (:arguments ("name")) nil [556 703]) ("display-method-table" function (:arguments ("method-table")) nil [705 881]))
+    :file "function-macros.scm"
+    :pointmax 3334
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "write-scheme-objects.scm"
+    :major-mode 'scheme-mode
+    :tags '(("get-arg-names" function (:arguments ("args")) nil [441 583]) ("write-methods" function (:arguments ("file-port" "class-name" "methods")) nil [585 1127]) ("write-constructor" function (:arguments ("file-port" "class-name")) nil [1441 1653]) ("write-classes" function (:arguments ("object-tree" "class-path")) nil [1655 2379]) ("write-class-index" function (:arguments ("object-tree" "class-path")) nil [2382 2891]))
+    :file "write-scheme-objects.scm"
+    :pointmax 2892
+    )
+   (semanticdb-table "swig_types_lookup.scm"
+    :major-mode 'scheme-mode
+    :tags '(("create-swig-lookup" function (:arguments ("obj-tree" "filename")) nil [220 763]))
+    :file "swig_types_lookup.scm"
+    :pointmax 764
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "write-swig.scm"
+    :major-mode 'scheme-mode
+    :tags '(("write-swig-method" function (:arguments ("file-port" "method")) nil [248 860]) ("write-swig-methods" function (:arguments ("method-list" "file-path")) nil [862 1404]) ("write-swig-function" function (:arguments ("file-port" "function")) nil [1531 2240]) ("write-swig-functions" function (:arguments ("function-list" "file-path")) nil [2242 2806]) ("create-swig-typemaps" function (:arguments ("obj-tree" "filename")) nil [3267 3646]) ("write-swig-enum" function (:arguments ("enum" "fileport")) nil [3788 4151]) ("create-swig-enums" function (:arguments ("enum-list" "filename")) nil [4153 4688]))
+    :file "write-swig.scm"
+    :pointmax 4688
+    )
+   (semanticdb-table "make-object-tree.scm"
+    :major-mode 'scheme-mode
+    :tags '(("make-branch" function (:arguments ("name" "parent")) nil [147 223]) ("add-branch" function (:arguments ("parent" "branch")) nil [225 330]) ("walk-tree" function (:arguments ("tree" "walk-proc")) nil [332 609]) ("find-branch" function (:arguments ("tree" "name")) nil [611 992]) ("load-tree" function (:arguments ("object-list")) nil [994 2176]) ("load-method-table" function (:arguments ("tree" "method-list")) nil [2178 2820]) ("load-function-table" function (:arguments ("tree" "function-list")) nil [2822 3498]))
+    :file "make-object-tree.scm"
+    :pointmax 3499
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0beta3"
+  :semanticdb-version "2.0beta3"
+  )
