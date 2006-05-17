@@ -23,6 +23,12 @@ EOF
 EOF
 );object-name method-name method-name args c-name args
 
+(define return-object-method-template
+#<<EOF
+
+EOF
+)
+
 (define (get-arg-names args)
   (if (null? args) ""
       (begin
