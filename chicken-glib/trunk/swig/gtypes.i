@@ -12,6 +12,5 @@ typedef unsigned int    guint;
 
 typedef float   gfloat;
 typedef double  gdouble;
-
 typedef void* gpointer;
 typedef const void *gconstpointer;
