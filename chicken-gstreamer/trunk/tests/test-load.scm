@@ -1,0 +1,23 @@
+(load-library 'chicken-gstreamer "./libchicken-gstreamer.so")
+(define main-loop (g-main-loop-new 0))
+(printf "main-loop ~a\n" main-loop)
+(define pipeline (GstPipeline 'clone))
+(pipeline 'new (list "name" "blahpipe"))
+(printf "pipeline new\n")
+(printf "pipeline 'this ~a\n" (pipeline 'this))
+(printf "pipeline name ~a\n" (pipeline 'get_name))
+(pipeline 'set_name "my pipeline")
+(printf "pipeline name ~a\n" (pipeline 'get_name))
+
+(printf "creating a element\n")
+(define element (GstElement 'clone))
+(element 'factory-make "fakesink" "sink")
+(printf "element ~a \n" (element 'this))
+
+(printf "element parent ~a\n" (element 'get_parent))
+(printf "adding element to pipeline ~a\n" (pipeline 'add element))
+(printf "element parent ~a\n" (element 'get_parent))
+(printf "element ~a\n" element)
+(element 'get_pad "sink")
+
+(g-main-loop-run main-loop)
