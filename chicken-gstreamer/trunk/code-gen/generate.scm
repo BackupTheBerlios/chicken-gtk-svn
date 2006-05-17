@@ -10,29 +10,35 @@
 (load "swig_types_lookup.scm")
 (define (include x) '()) ;this is because some of the defs files have an include
 
-(define object-list '())
+;the global where (define-macro (define-object name . params) puts the glib objects
+(define object-list '())  
+(define miniobject-list (cons (cons '() "GstMiniObject") '()))
+(define boxed-list '()) ;list that contains all gst "boxed" types
+(define pointer-list '()) ;list that constains all gst "pointer" types
+(define interface-list '())
 (load "make-object-list.scm")
+(load "function-macros.scm")
 (printf "generating files\n")
+;base.defs  gst-extrafuncs.defs  interfaces.defs  xoverlay.defs
+;gst.defs   gst-types.defs       libs.defs        xwindowlistener.defs
+(load "defs/base.defs")
+(load "defs/gst-extrafuncs.defs")
+(load "defs/interfaces.defs")
+(load "defs/xoverlay.defs")
+(load "defs/gst.defs")
+(load "defs/gst-types.defs")
+(load "defs/libs.defs")
+(load "defs/xwindowlistener.defs")
 
-;atk-types.defs  gdk-types.defs  gtk-types.defs  pango-types.defs
-(load "defs/atk-types.defs")
-(load "defs/gdk-types.defs")
-(load "defs/gtk-types.defs")
-(load "defs/pango-types.defs")
 ;(display object-list)(newline)
-(define object-tree (load-tree (cons (cons "GObject" "GtkObject") object-list)))
+;(define object-tree (load-tree (cons (cons "GObject" "GtkObject") object-list)))
+(define object-tree (load-tree object-list))
 ;(printf "object-tree ~a\n" object-tree)
 ;atk.defs        gdk-types.defs       gtk-types.defs   pango.defs
 ;atk-types.defs  gtk.defs             libglade.defs    pango-types.defs
 ;gdk.defs        pangocairo.defs
-(printf "loading function defs\n")
-(load "function-macros.scm")
-(load "defs/atk.defs") 
-(load "defs/gdk.defs")
-(load "defs/gtk.defs")
-(load "defs/libglade.defs")
-(load "defs/pango.defs")
-(load "defs/pangocairo.defs")
+;(printf "loading function defs\n")
+
 (printf "loading method-tables into object-tree\n")
 (load-method-table object-tree method-tables)
 (load-function-table object-tree function-tables)
@@ -51,3 +57,4 @@
 (create-swig-lookup object-tree (build-path home-folder "swig" "lookup.i"))
 (exit 0)
 
+   

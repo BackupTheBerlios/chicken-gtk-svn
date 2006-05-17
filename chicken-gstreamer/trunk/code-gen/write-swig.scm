@@ -1,10 +1,18 @@
 ;write-swig.scm
 ;note methods in glib are members of a class, functions might be constructors or just functions
 ;functions for creating swig methods
-(define swig-method-template
+(define swig-object-method-template
 #<<EOF
 
 ~a ~a(~a *self ~a);
+
+EOF
+  );return-type c-name c-name args
+
+(define swig-other-method-template
+#<<EOF
+
+~a ~a(~a self ~a);
 
 EOF
   );return-type c-name c-name args
@@ -18,13 +26,100 @@ EOF
           )
         )
     )
-  (fprintf file-port swig-method-template
-           (convert-arg (hash-table-get method 'return-type (lambda () "void")))
-           (hash-table-get method 'c-name)
-           (hash-table-get method 'of-object)
-           (swig-parameters (hash-table-get method 'parameters (lambda () '())))
-           )
-  )
+  (cond
+   ((is-object? (hash-table-get method 'of-object) object-list)
+      (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               ))
+
+   ((is-miniobject? (hash-table-get method 'of-object) miniobject-list)
+      (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               ))
+
+   ((is-boxed? (hash-table-get method 'of-object) boxed-list)
+      (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               ))
+
+   ((is-pointer? (hash-table-get method 'of-object) pointer-list)
+      (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               ))
+
+   ((is-interface? (hash-table-get method 'of-object) interface-list)
+      (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               ))
+
+   ((equal? (hash-table-get method 'of-object) "GstIterator")
+    (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               )
+    )
+
+   ((equal? (hash-table-get method 'of-object) "GstDebugCategory")
+    (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               )
+    )
+
+   ((equal? (hash-table-get method 'of-object) "GstDebugMessage")
+    (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               )
+    )
+
+   ((equal? (hash-table-get method 'of-object) "GstIndexEntry")
+    (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               )
+    )
+
+   ((equal? (hash-table-get method 'of-object) "GstElementClass")
+    (fprintf file-port swig-object-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               )
+    )
+   
+   (else     
+      (fprintf file-port swig-other-method-template
+               (convert-arg (hash-table-get method 'return-type (lambda () "void")))
+               (hash-table-get method 'c-name)
+               (hash-table-get method 'of-object)
+               (swig-parameters (hash-table-get method 'parameters (lambda () '())))
+               ))
+  ))
 
 (define (write-swig-methods method-list file-path)
   (letrec ((swig-port (open-output-file file-path 'replace))

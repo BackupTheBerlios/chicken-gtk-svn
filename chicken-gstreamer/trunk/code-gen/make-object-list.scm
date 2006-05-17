@@ -20,10 +20,123 @@
   `(set! object-list (cons (cons ',parent ',c-name) object-list))
   ))
 
+;same as "define-object" macro except for the GST Miniobjects
+(define-macro (define-miniobject name . params)
+  (let ((parent '())
+        (c-name '()))
+  (define (walk-params params)
+    (if (null? params) '()
+        (begin
+        (let ((param (caar params))
+              )
+          (cond ((eqv? param 'parent) (set! parent (cadar params)))
+                ((eqv? param 'c-name) (set! c-name (cadar params)))
+                )
+          )
+        (walk-params (cdr params))))) 
+  (walk-params params)
+  `(set! miniobject-list (cons (cons ',parent ',c-name) miniobject-list))
+  ))
+
 (define-macro (define-boxed name . params)
-  (symbol? name)
+  (let ((parent "GBoxed")
+        (c-name '()))
+  (define (walk-params params)
+    (if (null? params) '()
+        (begin
+        (let ((param (caar params))
+              )
+          (cond ((eqv? param 'parent) (set! parent (cadar params)))
+                ((eqv? param 'c-name) (set! c-name (cadar params)))
+                )
+          )
+        (walk-params (cdr params))))) 
+  (walk-params params)
+  `(set! boxed-list (cons (cons ',parent ',c-name) boxed-list))
+  )
   )
 
+(define-macro (define-pointer name . params)
+  (let ((parent "GPointer")
+        (c-name '()))
+  (define (walk-params params)
+    (if (null? params) '()
+        (begin
+        (let ((param (caar params))
+              )
+          (cond ((eqv? param 'parent) (set! parent (cadar params)))
+                ((eqv? param 'c-name) (set! c-name (cadar params)))
+                )
+          )
+        (walk-params (cdr params))))) 
+  (walk-params params)
+  `(set! pointer-list (cons (cons ',parent ',c-name) pointer-list))
+  ) 
+  )
+
+(define-macro (define-interface name . params)
+  (let ((parent "GInterface")
+        (c-name '()))
+  (define (walk-params params)
+    (if (null? params) '()
+        (begin
+        (let ((param (caar params))
+              )
+          (cond ((eqv? param 'parent) (set! parent (cadar params)))
+                ((eqv? param 'c-name) (set! c-name (cadar params)))
+                )
+          )
+        (walk-params (cdr params))))) 
+  (walk-params params)
+  `(set! interface-list (cons (cons ',parent ',c-name) interface-list))
+  )
+  )
+
+(define (is-object? c-name obj-list)
+  (if (null? obj-list) #f
+      (begin
+        (if (equal? (cdr (car obj-list)) c-name) #t
+            (is-object? c-name (cdr obj-list))
+            )
+        ))
+  )
+
+
+(define (is-miniobject? c-name obj-list)
+  (if (null? obj-list) #f
+      (begin
+        (if (equal? (cdr (car obj-list)) c-name) #t
+            (is-miniobject? c-name (cdr obj-list))
+            )
+        ))
+  )
+
+(define (is-boxed? c-name obj-list)
+  (if (null? obj-list) #f
+      (begin
+        (if (equal? (cdr (car obj-list)) c-name) #t
+            (is-boxed? c-name (cdr obj-list))
+            )
+        ))
+  )
+
+(define (is-pointer? c-name obj-list)
+  (if (null? obj-list) #f
+      (begin
+        (if (equal? (cdr (car obj-list)) c-name) #t
+            (is-pointer? c-name (cdr obj-list))
+            )
+        ))
+  )
+
+(define (is-interface? c-name obj-list)
+  (if (null? obj-list) #f
+      (begin
+        (if (equal? (cdr (car obj-list)) c-name) #t
+            (is-pointer? c-name (cdr obj-list))
+            )
+        ))
+  )
 
 (define enum-tables '())
 
@@ -61,13 +174,8 @@
   (symbol? name)
   )
 
-(define-macro (define-interface name . params)
-  (symbol? name)
-  )
 
-(define-macro (define-pointer name . params)
-  (symbol? name) 
-  )
+
 
 
 

@@ -15,13 +15,13 @@ EOF
 (define method-template
 #<<EOF
 
-(~a 'add-method-slot! '~a
+(~a 'add-method-slot! '~a 'set-~a!
          (lambda (self resend ~a)
            (~a (self 'this) ~a)
            ))
          
 EOF
-);object-name method-name args c-name args
+);object-name method-name method-name args c-name args
 
 (define (get-arg-names args)
   (if (null? args) ""
@@ -34,7 +34,9 @@ EOF
   (if (null? methods) '()
       (let ((method (car methods)))
         (fprintf file-port method-template
-                 class-name (hash-table-get method 'name)
+                 class-name
+                 (hash-table-get method 'name)
+                 (hash-table-get method 'name)
                  (get-arg-names (hash-table-get method 'parameters (lambda () '())))
                  (c-name->swig (hash-table-get method 'c-name))
                  (get-arg-names (hash-table-get method 'parameters (lambda () '())))
@@ -95,7 +97,7 @@ EOF
                             (fprintf index-file "(declare (uses ~a))\n" (tree-name class))
                             )
                         )))
-    (fprintf index-file "(declare (unit gtkobjects))\n")
+    (fprintf index-file "(declare (unit gstreamerobjects))\n")
     (walk-tree object-tree write-index)
     (close-output-port index-file)
     )
