@@ -1,5 +1,5 @@
 /* Generated from chicken-glib/GObject.scm by the Chicken compiler
-   2006-05-15 15:23
+   2006-05-27 08:57
    Version 2, Build 3 - linux-unix-gnu-x86 - [ dload ptables ]
    command line: chicken-glib/GObject.scm -dynamic -feature chicken-compile-shared -output-file chicken-glib/GObject.c
    unit: GObject

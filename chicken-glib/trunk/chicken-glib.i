@@ -9,3 +9,4 @@
 %include "swig/gobject.i"
 %include "swig/gmain.i"
 %include "swig/gparamspec.i"
+%include "swig/genumclass.i"
