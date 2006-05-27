@@ -27,6 +27,8 @@
                             'gst_tag_setter_merge_tags
                             'gst_query_types_contains
                             'gst_formats_contains
+                            ;remove the GstBus add watch functions so we can customize them
+                            'gst_bus_add_watch
                             ))
 
 (define ignore-function-list (list

@@ -108,3 +108,7 @@ EOF
     (close-output-port index-file)
     )
   )
+
+(define (write-scheme-enums enum-list class-path)
+  '()
+  )

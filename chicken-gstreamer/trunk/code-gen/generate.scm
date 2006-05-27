@@ -47,6 +47,7 @@
 (define home-folder (build-path "/" "home" "john" "Projects" "chicken-svn" "chicken-gstreamer" "trunk"))
 (printf "writing enums")
 (create-swig-enums enum-tables (build-path home-folder "swig" "enums.i"))
+
 (printf "writing class definitions\n")
 (write-classes object-tree (build-path home-folder "scm"))
 (write-class-index object-tree (build-path home-folder "scm" "gstreamerobjects.scm"))
