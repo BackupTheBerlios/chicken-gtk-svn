@@ -1,6 +1,9 @@
 (declare (unit chicken-gstreamer))
 (declare (uses chicken-wrap-gstreamer))
+(declare (uses swig-helpers))
 (declare (uses GObject))
+(declare (uses GEnum))
+(declare (uses GFlags))
 (declare (uses gstreamerobjects))
 
 ;GstBin helpers
@@ -14,4 +17,11 @@
          (lambda (self resend factory-name name)
            (self 'set-this! (gst-element-factory-make factory-name name))
            ))
+
+(GstElement 'set-link!
+         (lambda (self resend dest)
+           (gst-element-link (self 'this) (dest 'this))
+           ))
+
+;GstBus helpers
 
