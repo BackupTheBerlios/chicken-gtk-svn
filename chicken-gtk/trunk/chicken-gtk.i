@@ -1,5 +1,5 @@
 %module chicken_wrap_gtk
-                                 
+                                    
 %insert("chicken") {
 }
                                       
@@ -33,10 +33,15 @@ typedef void none;
 %include "swig/functions.i"  
 %include "swig/methods.i"     
 %include "swig/enums.i"    
-                
+
+//glade init
+void glade_init();
+GladeXML* glade_xml_new(const char *fname,const char *root,const char *domain);
+
 %insert("chicken") {
 (gtk-chicken-init)  
 }           
+
   
         
  

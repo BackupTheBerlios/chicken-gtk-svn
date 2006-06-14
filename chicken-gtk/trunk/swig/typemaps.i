@@ -1307,6 +1307,23 @@
 		swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NOT A SWIG POINTER");
 		}
 }
+%typemap(in) GladeXML *{
+	if($input == C_SCHEME_FALSE) {
+		swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NULL VALUE NOT ACCEPTED");
+		}
+	else if (C_swig_is_swigpointer($input)) {
+		void *result = (void *) C_block_item($input, 0);
+		if(GLADE_IS_XML(result)) {
+			$1 = result;
+			}
+		else {
+			swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NOT A GladeXML POINTER");
+			}
+		}
+	else {
+		swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NOT A SWIG POINTER");
+		}
+}
 %typemap(in) GtkObject *{
 	if($input == C_SCHEME_FALSE) {
 		swig_barf(SWIG_BARF1_BAD_ARGUMENT_TYPE, "NULL VALUE NOT ACCEPTED");

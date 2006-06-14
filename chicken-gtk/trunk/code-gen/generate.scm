@@ -17,6 +17,7 @@
 (load "defs/gdk-types.defs")
 (load "defs/gtk-types.defs")
 (load "defs/pango-types.defs")
+(load "defs/glade-types.defs") ;;this file has to be created by user from libglade.defs
 ;(display object-list)(newline)
 (define object-tree (load-tree (cons (cons "GObject" "GtkObject") object-list)))
 ;(printf "object-tree ~a\n" object-tree)

@@ -16,7 +16,7 @@ ccCHICKEN = "-DHAVE_ALLOCA_H  -DC_STACK_GROWS_DOWNWARD=1 -DC_USE_C_DEFAULTS -DC_
 libs = """
 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXinerama -lXi
 -lXrandr -lXext -lXcursor -lXfixes -lpango-1.0 -lcairo -lXrender -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl
--lglib-2.0
+-lglib-2.0 -lglade-2.0
 """.split()
 
 env.Append(CHICKENFLAGS = '-dynamic -feature chicken-compile-shared')

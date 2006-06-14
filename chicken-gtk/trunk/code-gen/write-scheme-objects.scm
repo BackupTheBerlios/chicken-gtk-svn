@@ -15,13 +15,13 @@ EOF
 (define method-template
 #<<EOF
 
-(~a 'add-method-slot! '~a
+(~a 'add-method-slot! '~a '~a!
          (lambda (self resend ~a)
            (~a (self 'this) ~a)
            ))
          
 EOF
-);object-name method-name args c-name args
+);object-name method-name method-name args c-name args
 
 (define (get-arg-names args)
   (if (null? args) ""
@@ -34,7 +34,9 @@ EOF
   (if (null? methods) '()
       (let ((method (car methods)))
         (fprintf file-port method-template
-                 class-name (hash-table-get method 'name)
+                 class-name
+                 (hash-table-get method 'name)
+                 (hash-table-get method 'name)
                  (get-arg-names (hash-table-get method 'parameters (lambda () '())))
                  (c-name->swig (hash-table-get method 'c-name))
                  (get-arg-names (hash-table-get method 'parameters (lambda () '())))
@@ -50,7 +52,7 @@ EOF
 (define constructor-template
 #<<EOF
 
-(~a 'add-method-slot! 'new (lambda (self resend . args)
+(~a 'add-method-slot! 'new 'new! (lambda (self resend . args)
                              (self 'set-this! (chicken-g-object-newv (~a) args))))
 
 EOF

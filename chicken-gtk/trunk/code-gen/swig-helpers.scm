@@ -44,9 +44,12 @@
     (if (null? class-list) '()
         (append '(#\_) (car class-list) (iter (cdr class-list)))
     ))
-  (string-upcase
-   (list->string (append  (car (breakup class-name)) (string->list "_IS") (iter (cdr (breakup class-name))))))
- )
+  (cond ((string=? class-name "GladeXML") "GLADE_IS_XML")
+        (else
+        (string-upcase
+         (list->string (append  (car (breakup class-name)) (string->list "_IS") (iter (cdr (breakup class-name))))))
+        ))
+        )
 
 
 ;GtkWindow -> gtk_window_get_type

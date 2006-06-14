@@ -1,4 +1,4 @@
-(load-library 'chicken-gtk "./libchicken-gtk.so")
+(load-library 'chicken-gtk "../libchicken-gtk.so")
 (define (hello  args)
   (printf "callback\n");
   (printf "hello callback ~a \n" (car args))  
