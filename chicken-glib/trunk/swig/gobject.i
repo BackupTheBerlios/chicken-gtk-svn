@@ -65,6 +65,10 @@ gulong chicken_signal_connect(GObject* object,const gchar *detailed_signal) {
    return signal_id;
 }
 
+void chicken_signal_disconnect(GObject* object,gulong handler_id) {
+   g_signal_handler_disconnect((gpointer)object,handler_id);
+}
+
 guint object_connect(GObject* w,GClosure *closure,const gchar *detailed_signal) {
 	return g_signal_connect_closure((gpointer)w,
 							detailed_signal,
@@ -184,4 +188,5 @@ GParamSpec** object_interface_list_properties(GObject* o,guint *n_properties_p);
 GObject* chicken_g_object_new(GType object_type);
 GObject* chicken_g_object_newv(GType object_type,C_word params);
 gulong chicken_signal_connect(GObject* object,const gchar *detailed_signal);
+void chicken_signal_disconnect(GObject* object,gulong handler_id);
 

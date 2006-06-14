@@ -54,22 +54,27 @@
 (GEnum 'add-value-slot! 'c-name 'set-c-name! '())
 
 
-(GEnum 'add-method-slot! 'clone (lambda (self resend c-name)
-	(let ((o (resend #f 'clone)))
-          (o 'set-c-name! c-name)
-          o
-          )
-	))
+; (GEnum 'add-method-slot! 'clone (lambda (self resend c-name)
+; 	(let ((o (resend #f 'clone)))
+;           (o 'set-c-name! c-name)
+;           o
+;           )
+; 	))
 
 (define (GEnum-new c-name)
-  (let ((gtype ((global-ref (string->symbol (make-get-type c-name))))))
-      (global-set! (string->symbol c-name)
-                   (GEnum 'clone c-name)
-                   )
-      ((global-ref (string->symbol c-name)) 'add-values gtype) 
-      )
-  )
+  (handle-exceptions exn
+                     (begin
+                       '()
+                       ;(printf "Error creating enum ~a\n" c-name)
+                       )
+    ;(printf "loading enum ~a\n" c-name)
+    (let ((gtype ((global-ref (string->symbol (make-get-type c-name)))))
+       (obj (GEnum 'clone)))
+    (obj 'set-c-name! c-name)
+    (global-set! (string->symbol c-name) obj)
+    ((global-ref (string->symbol c-name)) 'add-values gtype))
+  ))
 
-(GEnum-new "GstState")
+;(GEnum-new "GstState")
 
 
