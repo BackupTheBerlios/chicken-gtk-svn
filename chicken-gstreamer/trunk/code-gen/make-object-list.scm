@@ -170,12 +170,37 @@
     (set! enum-tables (cons enum-table enum-tables))
     )))
 
-(define-macro (define-flags name . params)
-  (symbol? name)
+(define flag-tables '())
+
+(define (make-flag-table name)
+  (let ((flag-table (make-hash-table)))
+    (hash-table-put! flag-table 'name name)
+    flag-table
+    )
   )
 
+(define-macro (define-flags name . args)
+  `(letrec ((flag-table (make-flag-table (symbol->string ',name)))
+            (iter-params (lambda (params)
+                           (if (null? params) '()
+                               (cons (eval (car params)) (iter-params (cdr params)))
+                               )
+                           ))
+            (iter-args (lambda (args)
+                        (if (null? args) '()
+                            (begin
+                              (if (eqv? (caar args) 'values)
+                                  (hash-table-put! flag-table 'values (iter-params (cdar args)))
+                                  (begin
+                                    (hash-table-put! flag-table (caar args) (cadar args))
+                                    ))
+                              (iter-args (cdr args))
+                              )))))
+    (iter-args '(,@args))
 
-
+    (if (memv (string->symbol (hash-table-get flag-table 'c-name)) ignore-flag-list) (printf "ignored flag\n")
+    (set! flag-tables (cons flag-table flag-tables))
+    )))
 
 
 

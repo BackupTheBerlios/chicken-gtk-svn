@@ -929,8 +929,6 @@ gboolean gst_bus_async_signal_func(GstBus *self ,GstMessage* message,gpointer da
 
 GstMessage* gst_bus_poll(GstBus *self ,GstMessageType events,GstClockTimeDiff timeout);
 
-guint gst_bus_add_watch(GstBus *self ,GstBusFunc func,gpointer user_data);
-
 guint gst_bus_add_watch_full(GstBus *self ,gint priority,GstBusFunc func,gpointer user_data,GDestroyNotify notify);
 
 GSource* gst_bus_create_watch(GstBus *self );

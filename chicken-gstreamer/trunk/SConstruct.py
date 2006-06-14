@@ -10,7 +10,7 @@ gstreamer_PATH = """
 gstreamer_PATH = map((lambda x : x[2:]),gstreamer_PATH)
 cppPATH = ["/usr/local/include"] + gstreamer_PATH
 
-ccFlags = ""
+ccFlags = "-g"
 ccCHICKEN = "-DHAVE_ALLOCA_H  -DC_STACK_GROWS_DOWNWARD=1 -DC_USE_C_DEFAULTS -DC_SHARED"
 libPATH = '/usr/lib:/usr/local/lib'
 libs = """

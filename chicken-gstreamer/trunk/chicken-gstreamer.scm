@@ -5,6 +5,8 @@
 (declare (uses GEnum))
 (declare (uses GFlags))
 (declare (uses gstreamerobjects))
+(declare (uses gst-enums))
+(declare (uses gst-flags))
 
 ;GstBin helpers
 (GstBin 'set-add!

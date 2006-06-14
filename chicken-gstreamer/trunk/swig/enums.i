@@ -12,10 +12,6 @@ typedef enum {
               } GstURIType;
                 
 typedef enum {
-              GST_RANK_NONE,GST_RANK_MARGINAL,GST_RANK_SECONDARY,GST_RANK_PRIMARY
-              } GstRank;
-                
-typedef enum {
               GST_STATE_CHANGE_NULL_TO_READY,GST_STATE_CHANGE_READY_TO_PAUSED,GST_STATE_CHANGE_PAUSED_TO_PLAYING,GST_STATE_CHANGE_PLAYING_TO_PAUSED,GST_STATE_CHANGE_PAUSED_TO_READY,GST_STATE_CHANGE_READY_TO_NULL
               } GstStateChange;
                 
@@ -26,10 +22,6 @@ typedef enum {
 typedef enum {
               GST_STATE_VOID_PENDING,GST_STATE_NULL,GST_STATE_READY,GST_STATE_PAUSED,GST_STATE_PLAYING
               } GstState;
-                
-typedef enum {
-              GST_TYPE_FIND_MINIMUM,GST_TYPE_FIND_POSSIBLE,GST_TYPE_FIND_LIKELY,GST_TYPE_FIND_NEARLY_CERTAIN,GST_TYPE_FIND_MAXIMUM
-              } GstTypeFindProbability;
                 
 typedef enum {
               GST_TASK_STARTED,GST_TASK_STOPPED,GST_TASK_PAUSED
@@ -72,20 +64,12 @@ typedef enum {
               } GstFlowReturn;
                 
 typedef enum {
-              GST_PAD_LINK_OK,GST_PAD_LINK_WRONG_HIERARCHY,GST_PAD_LINK_WAS_LINKED,GST_PAD_LINK_WRONG_DIRECTION,GST_PAD_LINK_NOFORMAT,GST_PAD_LINK_NOSCHED,GST_PAD_LINK_REFUSED
-              } GstPadLinkReturn;
-                
-typedef enum {
               GST_ITERATOR_ITEM_SKIP,GST_ITERATOR_ITEM_PASS,GST_ITERATOR_ITEM_END
               } GstIteratorItem;
                 
 typedef enum {
               GST_ITERATOR_DONE,GST_ITERATOR_OK,GST_ITERATOR_RESYNC,GST_ITERATOR_ERROR
               } GstIteratorResult;
-                
-typedef enum {
-              GST_DEBUG_FG_BLACK,GST_DEBUG_FG_RED,GST_DEBUG_FG_GREEN,GST_DEBUG_FG_YELLOW,GST_DEBUG_FG_BLUE,GST_DEBUG_FG_MAGENTA,GST_DEBUG_FG_CYAN,GST_DEBUG_FG_WHITE,GST_DEBUG_BG_BLACK,GST_DEBUG_BG_RED,GST_DEBUG_BG_GREEN,GST_DEBUG_BG_YELLOW,GST_DEBUG_BG_BLUE,GST_DEBUG_BG_MAGENTA,GST_DEBUG_BG_CYAN,GST_DEBUG_BG_WHITE,GST_DEBUG_BOLD,GST_DEBUG_UNDERLINE
-              } GstDebugColorFlags;
                 
 typedef enum {
               GST_LEVEL_NONE,GST_LEVEL_ERROR,GST_LEVEL_WARNING,GST_LEVEL_INFO,GST_LEVEL_DEBUG,GST_LEVEL_LOG,GST_LEVEL_COUNT

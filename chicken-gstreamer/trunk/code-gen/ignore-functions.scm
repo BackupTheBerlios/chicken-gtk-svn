@@ -37,9 +37,15 @@
                               ))
 
 (define ignore-enum-list (list
+                          ;causes seg faults
+                          'GstRank
+                          'GstTypeFindProbability
+                          'GstPadLinkReturn
+                          'GstDebugColorFlags
+                          ;error parsing
                           'GstMixerType
                           'GstColorBalanceType
                           'GstEventType
                           ))
 
-
+(define ignore-flag-list '())

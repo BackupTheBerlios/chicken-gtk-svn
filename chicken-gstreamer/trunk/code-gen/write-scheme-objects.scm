@@ -109,6 +109,34 @@ EOF
     )
   )
 
-(define (write-scheme-enums enum-list class-path)
-  '()
-  )
+
+(define (write-scheme-enums enum-list enum-path)
+  ;(printf "write-scheme-enums ~a\n" enum-list)
+  (letrec
+      ((enum-file (open-output-file enum-path 'replace))
+      (write-enums (lambda (enum-list)
+              (if (null? enum-list) '()
+                  (begin
+                    ;(printf "e-num ~a\n" (car enum-list))
+                    (fprintf enum-file "(GEnum-new \"~a\")\n" (hash-table-get (car enum-list) 'c-name))
+                    (write-enums (cdr enum-list))
+                    )))))
+    (fprintf enum-file "(declare (unit gst-enums))\n")
+    (write-enums enum-list)
+    (close-output-port enum-file)
+    ))
+
+(define (write-scheme-flags flag-list flag-path)
+  (letrec
+      ((flag-file (open-output-file flag-path 'replace))
+      (write-flags (lambda (flag-list)
+              (if (null? flag-list) '()
+                  (begin
+                    ;(printf "e-num ~a\n" (car enum-list))
+                    (fprintf flag-file "(GFlags-new \"~a\")\n" (hash-table-get (car flag-list) 'c-name))
+                    (write-flags (cdr flag-list))
+                    )))))
+    (fprintf flag-file "(declare (unit gst-flags))\n")
+    (write-flags flag-list)
+    (close-output-port flag-file)
+    ))

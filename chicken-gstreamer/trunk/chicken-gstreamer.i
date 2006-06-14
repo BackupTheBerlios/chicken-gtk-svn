@@ -84,6 +84,4 @@ GST_EVENT_UNKNOWN,GST_EVENT_FLUSH_START,GST_EVENT_FLUSH_STOP,GST_EVENT_EOS,GST_E
 
 //end GstBus helpers
 %rename (gst_bus_add_watch) Chicken_gst_bus_add_watch;
-guint Chicken_gst_bus_add_watch(GstBus *bus,C_word chicken_function);
- 
- 
+guint Chicken_gst_bus_add_watch(GstBus *bus,C_word chicken_function); 

@@ -4,16 +4,16 @@
   :tables (list 
    (semanticdb-table "ignore-functions.scm"
     :major-mode 'scheme-mode
-    :tags '(("ignore-method-list" variable (:default-value ((50 . 1711))) nil [23 1712]) ("ignore-function-list" variable (:default-value ((118 . 263))) nil [1714 1889]) ("ignore-enum-list" variable (:default-value ((229 . 389))) nil [1891 2077]))
+    :tags '(("ignore-method-list" variable (:default-value ((50 . 1711))) nil [23 1712]) ("ignore-function-list" variable (:default-value ((1743 . 1888))) nil [1714 1889]) ("ignore-enum-list" variable (:default-value ((1916 . 2337))) nil [1891 2338]) ("ignore-flag-list" variable (:default-value ((2140 . 2142))) nil [2340 2369]))
     :file "ignore-functions.scm"
-    :pointmax 2080
+    :pointmax 2370
     :unmatched-syntax 'nil
     )
    (semanticdb-table "generate.scm"
     :major-mode 'scheme-mode
     :tags '(("make-object-tree.scm" include (:system-flag "make-object-tree.scm") nil [115 144]) ("write-scheme-objects.scm" include (:system-flag "write-scheme-objects.scm") nil [145 178]) ("swig-helpers.scm" include (:system-flag "swig-helpers.scm") nil [179 204]) ("write-swig.scm" include (:system-flag "write-swig.scm") nil [205 228]) ("ignore-functions.scm" include (:system-flag "ignore-functions.scm") nil [229 258]) ("swig_types_lookup.scm" include (:system-flag "swig_types_lookup.scm") nil [259 289]) ("include" function (:arguments ("x")) nil [290 314]) ("object-list" variable (:default-value ((477 . 479))) nil [456 480]) ("miniobject-list" variable (:default-value ((507 . 544))) nil [483 545]) ("boxed-list" variable (:default-value ((566 . 568))) nil [546 569]) ("pointer-list" variable (:default-value ((634 . 636))) nil [612 637]) ("interface-list" variable (:default-value ((707 . 709))) nil [683 710]) ("make-object-list.scm" include (:system-flag "make-object-list.scm") nil [711 740]) ("function-macros.scm" include (:system-flag "function-macros.scm") nil [741 769]) ("base.defs" include (:system-flag "defs/base.defs") nil [935 958]) ("gst-extrafuncs.defs" include (:system-flag "defs/gst-extrafuncs.defs") nil [959 992]) ("interfaces.defs" include (:system-flag "defs/interfaces.defs") nil [993 1022]) ("xoverlay.defs" include (:system-flag "defs/xoverlay.defs") nil [1023 1050]) ("gst.defs" include (:system-flag "defs/gst.defs") nil [1051 1073]) ("gst-types.defs" include (:system-flag "defs/gst-types.defs") nil [1074 1102]) ("libs.defs" include (:system-flag "defs/libs.defs") nil [1103 1126]) ("xwindowlistener.defs" include (:system-flag "defs/xwindowlistener.defs") nil [1127 1161]) ("object-tree" variable (:default-value ((1297 . 1320))) nil [1277 1321]) ("home-folder" variable (:default-value ((1787 . 1870))) nil [1767 1871]))
     :file "generate.scm"
-    :pointmax 2546
+    :pointmax 2764
     :unmatched-syntax 'nil
     )
    (semanticdb-table "function-macros.scm"
@@ -25,9 +25,9 @@
     )
    (semanticdb-table "write-scheme-objects.scm"
     :major-mode 'scheme-mode
-    :tags '(("get-arg-names" function (:arguments ("args")) nil [515 657]) ("write-methods" function (:arguments ("file-port" "class-name" "methods")) nil [659 1265]) ("write-constructor" function (:arguments ("file-port" "class-name")) nil [1579 1791]) ("write-classes" function (:arguments ("object-tree" "class-path")) nil [1793 2517]) ("write-class-index" function (:arguments ("object-tree" "class-path")) nil [2520 3035]) ("write-scheme-enums" function (:arguments ("enum-list" "class-path")) nil [3037 3096]))
+    :tags '(("get-arg-names" function (:arguments ("args")) nil [515 657]) ("write-methods" function (:arguments ("file-port" "class-name" "methods")) nil [659 1265]) ("write-constructor" function (:arguments ("file-port" "class-name")) nil [1579 1791]) ("write-classes" function (:arguments ("object-tree" "class-path")) nil [1793 2517]) ("write-class-index" function (:arguments ("object-tree" "class-path")) nil [2520 3035]) ("write-scheme-enums" function (:arguments ("enum-list" "enum-path")) nil [3038 3668]) ("write-scheme-flags" function (:arguments ("flag-list" "flag-path")) nil [3670 4253]))
     :file "write-scheme-objects.scm"
-    :pointmax 3096
+    :pointmax 4253
     :unmatched-syntax 'nil
     )
    (semanticdb-table "swig_types_lookup.scm"
@@ -53,9 +53,9 @@
     )
    (semanticdb-table "make-object-list.scm"
     :major-mode 'scheme-mode
-    :tags '(("is-object?" function (:arguments ("c-name" "obj-list")) nil [2890 3093]) ("is-miniobject?" function (:arguments ("c-name" "obj-list")) nil [3096 3307]) ("is-boxed?" function (:arguments ("c-name" "obj-list")) nil [3309 3510]) ("is-pointer?" function (:arguments ("c-name" "obj-list")) nil [3512 3717]) ("is-interface?" function (:arguments ("c-name" "obj-list")) nil [3719 3926]) ("enum-tables" variable (:default-value ((3207 . 3209))) nil [3928 3952]) ("make-enum-table" function (:arguments ("name")) nil [3954 4093]))
+    :tags '(("is-object?" function (:arguments ("c-name" "obj-list")) nil [2890 3093]) ("is-miniobject?" function (:arguments ("c-name" "obj-list")) nil [3096 3307]) ("is-boxed?" function (:arguments ("c-name" "obj-list")) nil [3309 3510]) ("is-pointer?" function (:arguments ("c-name" "obj-list")) nil [3512 3717]) ("is-interface?" function (:arguments ("c-name" "obj-list")) nil [3719 3926]) ("enum-tables" variable (:default-value ((3949 . 3951))) nil [3928 3952]) ("make-enum-table" function (:arguments ("name")) nil [3954 4093]) ("flag-tables" variable (:default-value ((5198 . 5200))) nil [5177 5201]) ("make-flag-table" function (:arguments ("name")) nil [5203 5342]))
     :file "make-object-list.scm"
-    :pointmax 5248
+    :pointmax 6430
     :unmatched-syntax 'nil
     )
    (semanticdb-table "swig-helpers.scm"
